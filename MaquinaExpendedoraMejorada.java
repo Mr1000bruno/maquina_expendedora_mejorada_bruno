@@ -10,18 +10,21 @@ public class MaquinaExpendedoraMejorada {
     private String estacionOrigen;
     // El destino del billete
     private String estacionDestino;
+    // El premio de la maquina 
+    private boolean premioMaquina;
 
     /**
      * Crea una maquina expendedora de billetes de tren con el 
      * precio del billete y el origen y destino dados. Se asume que el precio
      * del billete que se recibe es mayor que 0.
      */
-    public MaquinaExpendedoraMejorada(int precioDelBillete, String origen, String destino) {
+    public MaquinaExpendedoraMejorada(int precioDelBillete, String origen, String destino ,boolean maquinaConPremio) {
         precioBillete = precioDelBillete;
         balanceClienteActual = 0;
         totalDineroAcumulado = 0;
         estacionOrigen = origen;
         estacionDestino = destino;
+        premioMaquina = maquinaConPremio;
     }
 
     /**
@@ -61,8 +64,16 @@ public class MaquinaExpendedoraMejorada {
             System.out.println("# De " + estacionOrigen + " a " + estacionDestino);
             System.out.println("# " + precioBillete + " euros.");
             System.out.println("##################");
-            System.out.println();         
-    
+            System.out.println();
+            if(premioMaquina == true){
+                System.out.println("##################");
+                System.out.println("PREMIO");
+                System.out.println("# Billete de tren:");
+                System.out.println("# De " + estacionOrigen + " a " + estacionDestino);
+                System.out.println("# " + precioBillete + " euros.");
+                System.out.println("##################");
+                System.out.println();
+            }
             // Actualiza el total de dinero acumulado en la maquina
             totalDineroAcumulado = totalDineroAcumulado + precioBillete;
             // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
@@ -86,16 +97,16 @@ public class MaquinaExpendedoraMejorada {
         return cantidadDeDineroADevolver;
     } 
     public int vaciarDineroDeLaMaquina() {
-        if (balanceClienteActual >0){
-           System.out.println("No se ha podido realizar la operacion");
-           return -1;
-        }
-        else{
-            int cantidadVaciar;
-            cantidadVaciar =  totalDineroAcumulado;
+        int cantidadVaciar;
+        if (balanceClienteActual == 0){
+            cantidadVaciar =  totalDineroAcumulado + balanceClienteActual;
             balanceClienteActual = 0;
             totalDineroAcumulado = 0;
-            return cantidadVaciar;
         }
+        else{
+            System.out.println("No se ha podido realizar la operacion");
+            cantidadVaciar = -1;
+        }
+        return cantidadVaciar;
     }
 }
